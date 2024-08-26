@@ -13,6 +13,10 @@ class PasscodeRepositoryImpl @Inject constructor(private val preferenceManager: 
     override val hasPasscode: Boolean
         get() = preferenceManager.hasPasscode
 
+    override fun setHasPassCode(hasPassCode: Boolean) {
+        preferenceManager.hasPasscode = hasPassCode
+    }
+
     override fun savePasscode(passcode: String) {
         preferenceManager.savePasscode(passcode)
     }
