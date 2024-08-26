@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.compose.PasscodeRepository
+import com.mifos.compose.theme.SurfaceBackgroundColor
 import com.mifos.compose.theme.blueTint
 import com.mifos.compose.theme.borderGreen
 import com.mifos.compose.theme.circleGreen
@@ -96,7 +97,7 @@ fun PasscodeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(SurfaceBackgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 

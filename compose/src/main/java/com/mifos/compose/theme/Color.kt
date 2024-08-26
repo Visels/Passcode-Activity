@@ -12,3 +12,4 @@ val lightGreen= Color(0xFF59DBB5)
 val limeGreen = Color(50,205,50)
 val borderGreen = Color(18,219,61)
 val circleGreen = Color(12,221,59)
+val SurfaceBackgroundColor = Color(0xFFFEFBFF);
