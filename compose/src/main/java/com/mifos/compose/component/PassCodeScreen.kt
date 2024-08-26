@@ -207,6 +207,8 @@ fun PasscodeScreenPreview() {
             override val hasPasscode: Boolean
                 get() = false
 
+            override fun setHasPassCode(hasPassCode: Boolean) {}
+
             override fun savePasscode(passcode: String) {}
 
         }),
