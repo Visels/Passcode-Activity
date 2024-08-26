@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.mifos.compose.R
 import com.mifos.compose.theme.materialBlue
 import com.mifos.compose.theme.poppins
+import com.mifos.compose.theme.poppins_normal
 import com.mifos.compose.utility.Step
 
 @Composable
@@ -82,7 +83,7 @@ fun PasscodeHeader(
                         .scale(scale = scaleHeader1),
                     text = stringResource(id = R.string.enter_your_passcode),
                     style = TextStyle(fontSize = 22.sp),
-                    fontFamily = poppins,
+                    fontFamily = poppins_normal,
                     color = materialBlue
                 )
             } else {
@@ -93,8 +94,8 @@ fun PasscodeHeader(
                             .alpha(alpha = alphaHeader1)
                             .scale(scale = scaleHeader1),
                         text = stringResource(id = R.string.create_passcode),
-                        style = TextStyle(fontSize = 20.sp),
-                        fontFamily = poppins,
+                        style = TextStyle(fontSize = 18.sp),
+                        fontFamily = poppins_normal,
                         color = materialBlue
                     )
                 } else if (activeStep == Step.Confirm) {
@@ -105,7 +106,7 @@ fun PasscodeHeader(
                             .scale(scale = scaleHeader2),
                         text = stringResource(id = R.string.confirm_passcode),
                         style = TextStyle(fontSize = 20.sp),
-                        fontFamily = poppins,
+                        fontFamily = poppins_normal,
                         color = materialBlue
                     )
                 }

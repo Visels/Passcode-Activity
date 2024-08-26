@@ -18,6 +18,8 @@ import com.mifos.compose.R
 import com.mifos.compose.theme.forgotButtonStyle
 import com.mifos.compose.theme.materialBlue
 import com.mifos.compose.theme.materialBlueLight90
+import com.mifos.compose.theme.poppins
+import com.mifos.compose.theme.poppins_normal
 import com.mifos.compose.theme.skipButtonStyle
 
 @Composable
@@ -45,7 +47,7 @@ fun PasscodeSkipButton(
                     contentColor = materialBlue
                 )
             ) {
-                Text(text = "Skip")
+                Text(text = "Skip", fontFamily = poppins_normal)
             }
         }
     }
@@ -74,7 +76,7 @@ fun PasscodeForgotButton(
             ) {
                 Text(
                     text = stringResource(R.string.forgot_passcode_login_manually),
-                    style = forgotButtonStyle
+                    style = forgotButtonStyle,
                 )
             }
         }

@@ -29,7 +29,8 @@ class PassCodeActivity : AppCompatActivity() {
                     onForgotButton = { onPasscodeForgot() },
                     onSkipButton = { onPasscodeSkip() },
                     onPasscodeConfirm = { onPassCodeReceive(it) },
-                    onPasscodeRejected = { onPasscodeReject() }
+                    onPasscodeRejected = { onPasscodeReject() },
+                    biometricAuthentication = {}
                 )
             }
         }

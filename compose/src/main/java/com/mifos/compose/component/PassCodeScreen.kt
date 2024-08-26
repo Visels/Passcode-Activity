@@ -68,6 +68,7 @@ fun PasscodeScreen(
     onSkipButton: () -> Unit,
     onPasscodeConfirm: (String) -> Unit,
     onPasscodeRejected: () -> Unit,
+    biometricAuthentication:() -> Unit
 ) {
     val context = LocalContext.current
     val preferenceManager = remember { PreferenceManager(context) }
@@ -101,9 +102,10 @@ fun PasscodeScreen(
 
         Column (
             modifier = Modifier.weight(0.05f)
-        ){
-        PasscodeToolbar(activeStep = activeStep, preferenceManager.hasPasscode)
-        PasscodeSkipButton(onSkipButton = { onSkipButton.invoke() },hasPassCode = preferenceManager.hasPasscode)
+        )
+        {
+            PasscodeToolbar(activeStep = activeStep, preferenceManager.hasPasscode)
+            PasscodeSkipButton(onSkipButton = { onSkipButton.invoke() },hasPassCode = preferenceManager.hasPasscode)
         }
 //        MifosIcon(modifier = Modifier.fillMaxWidth())
 
@@ -129,7 +131,8 @@ fun PasscodeScreen(
                 restart = { viewModel.restart() },
                 passcodeRejectedDialogVisible = passcodeRejectedDialogVisible,
                 onDismissDialog = { passcodeRejectedDialogVisible = false },
-                xShake = xShake
+                xShake = xShake,
+                hasPassCode = preferenceManager.hasPasscode
             )
         }
 
@@ -143,7 +146,9 @@ fun PasscodeScreen(
                 enterKey = { viewModel.enterKey(it) },
                 deleteKey = { viewModel.deleteKey() },
                 deleteAllKeys = { viewModel.deleteAllKeys() },
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp),
+                hasPassCode = preferenceManager.hasPasscode,
+                launchBiometricPrompt = biometricAuthentication
             )
         }
 
@@ -169,7 +174,8 @@ private fun PasscodeView(
     currentPasscode: String,
     passcodeRejectedDialogVisible: Boolean,
     onDismissDialog: () -> Unit,
-    xShake: Animatable<Float, *>
+    xShake: Animatable<Float, *>,
+    hasPassCode: Boolean
 ) {
     PasscodeMismatchedDialog(
         visible = passcodeRejectedDialogVisible,
@@ -260,6 +266,6 @@ fun PasscodeScreenPreview() {
             override fun savePasscode(passcode: String) {}
 
         }),
-        {}, {}, {}, {}
+        {}, {}, {}, {},{}
     )
 }

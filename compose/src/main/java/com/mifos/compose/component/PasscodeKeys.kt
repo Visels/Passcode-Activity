@@ -1,5 +1,6 @@
 package com.mifos.compose.component
 
+import android.hardware.biometrics.BiometricPrompt
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,13 +34,16 @@ import com.mifos.compose.R
 import com.mifos.compose.theme.PasscodeKeyButtonStyle
 import com.mifos.compose.theme.blueTint
 import com.mifos.compose.theme.materialBlue
+import com.mifos.compose.theme.poppins
 
 @Composable
 fun PasscodeKeys(
+    launchBiometricPrompt: ()-> Unit,
     enterKey: (String) -> Unit,
     deleteKey: () -> Unit,
     deleteAllKeys: () -> Unit,
     modifier: Modifier = Modifier,
+    hasPassCode: Boolean
 ) {
     val onEnterKeyClick = { keyTitle: String ->
         enterKey(keyTitle)
@@ -112,10 +116,16 @@ fun PasscodeKeys(
         Row(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)) {
-            PasscodeKey(
-                modifier = Modifier.weight(weight = 1.0F),
-                keyIconContentDescription = "fingerprint",
-                keyIcon = ImageVector.vectorResource(id = R.drawable.fingerprint_svgrepo_com))
+
+            if(hasPassCode){
+                PasscodeKey(
+                    modifier = Modifier.weight(weight = 1.0F),
+                    keyIconContentDescription = "fingerprint",
+                    keyIcon = ImageVector.vectorResource(id = R.drawable.fingerprint_svgrepo_com),
+                    onClick = {launchBiometricPrompt()})
+            }
+            else{ PasscodeKey(modifier = Modifier.weight(weight = 1.0F)) }
+
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyTitle = "0",
@@ -164,26 +174,16 @@ fun PasscodeKey(
                 Text(
                     text = keyTitle,
 //                    style = PasscodeKeyButtonStyle.copy(color = materialBlue)
-                    style = PasscodeKeyButtonStyle.copy(color = Color.Black)
+                    style = PasscodeKeyButtonStyle.copy(color = Color.Black),
+                    fontFamily = poppins
                 )
             } else {
-                if(keyIconContentDescription.equals("backspace")){
                     Icon(
-                        imageVector = Icons.Default.Backspace,
+                        imageVector = keyIcon,
                         contentDescription = keyIconContentDescription,
 //                    tint = blueTint
                         tint = materialBlue
                     )
-                }
-                else {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.fingerprint_svgrepo_com),
-                        contentDescription = keyIconContentDescription,
-//                    tint = blueTint
-                        tint = materialBlue
-                    )
-                }
-
             }
         }
     }
@@ -229,5 +229,5 @@ fun CombinedClickableIconButton(
 @Composable
 @Preview(showBackground = true)
 fun PasscodeKeysPreview() {
-    PasscodeKeys({}, {}, {})
+    PasscodeKeys({}, {}, {},{}, hasPassCode = true)
 }
