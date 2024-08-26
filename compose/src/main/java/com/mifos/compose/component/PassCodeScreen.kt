@@ -1,20 +1,25 @@
 package com.mifos.compose.component
 
+import android.provider.CalendarContract.Colors
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -29,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +43,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mifos.compose.PasscodeRepository
 import com.mifos.compose.theme.blueTint
+import com.mifos.compose.theme.borderGreen
+import com.mifos.compose.theme.circleGreen
+import com.mifos.compose.theme.lightGreen
+import com.mifos.compose.theme.limeGreen
+import com.mifos.compose.theme.materialBlue
+import com.mifos.compose.theme.materialBlueLight67
+import com.mifos.compose.theme.materialBlueLight90
 import com.mifos.compose.utility.Constants.PASSCODE_LENGTH
 import com.mifos.compose.utility.PreferenceManager
 import com.mifos.compose.utility.ShakeAnimation.performShakeAnimation
@@ -85,22 +98,29 @@ fun PasscodeScreen(
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
+        Column (
+            modifier = Modifier.weight(0.05f)
+        ){
         PasscodeToolbar(activeStep = activeStep, preferenceManager.hasPasscode)
-        PasscodeSkipButton(
-            onSkipButton = { onSkipButton.invoke() },
-            hasPassCode = preferenceManager.hasPasscode
-        )
-        MifosIcon(modifier = Modifier.fillMaxWidth())
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        PasscodeSkipButton(onSkipButton = { onSkipButton.invoke() },hasPassCode = preferenceManager.hasPasscode)
+        }
+//        MifosIcon(modifier = Modifier.fillMaxWidth())
+
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .weight(0.2f)
+            .padding(top = 16.dp, bottom = 4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center)
+        {
+
             PasscodeHeader(
                 activeStep = activeStep,
                 isPasscodeAlreadySet = preferenceManager.hasPasscode
             )
+            Spacer(modifier = Modifier.height(8.dp))
             PasscodeView(
                 filledDots = filledDots,
                 currentPasscode = currentPasscode,
@@ -112,18 +132,30 @@ fun PasscodeScreen(
                 xShake = xShake
             )
         }
-        Spacer(modifier = Modifier.height(6.dp))
-        PasscodeKeys(
-            enterKey = { viewModel.enterKey(it) },
-            deleteKey = { viewModel.deleteKey() },
-            deleteAllKeys = { viewModel.deleteAllKeys() },
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        PasscodeForgotButton(
-            onForgotButton = { onForgotButton.invoke() },
-            hasPassCode = preferenceManager.hasPasscode
-        )
+
+
+
+        Column (
+            modifier = Modifier.weight(0.22f)
+        ){
+            Spacer(modifier = Modifier.height(6.dp))
+            PasscodeKeys(
+                enterKey = { viewModel.enterKey(it) },
+                deleteKey = { viewModel.deleteKey() },
+                deleteAllKeys = { viewModel.deleteAllKeys() },
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        }
+
+        Column (modifier = Modifier.weight(0.05f)) {
+            Spacer(modifier = Modifier.height(8.dp))
+            PasscodeForgotButton(
+                onForgotButton = { onForgotButton.invoke() },
+                hasPassCode = preferenceManager.hasPasscode
+            )
+        }
+      
+
     }
 }
 
@@ -155,7 +187,7 @@ private fun PasscodeView(
         Row(
             modifier = modifier.offset(x = xShake.value.dp),
             horizontalArrangement = Arrangement.spacedBy(
-                space = 26.dp,
+                space = 27.dp,
                 alignment = Alignment.CenterHorizontally
             ),
             verticalAlignment = Alignment.CenterVertically
@@ -164,34 +196,50 @@ private fun PasscodeView(
                 if (passcodeVisible && dotIndex < currentPasscode.length) {
                     Text(
                         text = currentPasscode[dotIndex].toString(),
-                        color = blueTint
+                        color = Color.Black
                     )
                 } else {
                     val isFilledDot = dotIndex + 1 <= filledDots
                     val dotColor = animateColorAsState(
-                        if (isFilledDot) blueTint else Color.Gray, label = ""
+                        if (isFilledDot) borderGreen else materialBlueLight67, label = ""
+                    )
+                    val valueColor = animateColorAsState(
+                        if (isFilledDot) circleGreen else Color.White, label = ""
                     )
 
                     Box(
                         modifier = Modifier
-                            .size(14.dp)
-                            .background(
+                            .size(44.dp)
+                            .border(
+                                width = 2.dp,
                                 color = dotColor.value,
-                                shape = CircleShape
+                                shape = RoundedCornerShape(8.dp)
                             )
-                    )
+//                            .background(
+//                                color = dotColor.value,
+//                                shape = RoundedCornerShape(5.dp)
+//                            )
+
+                    ){
+                        Box(
+                            modifier = Modifier.padding(12.dp).size(20.dp).background(
+                                color = valueColor.value,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                        )
+                    }
                 }
             }
         }
-        IconButton(
-            onClick = { togglePasscodeVisibility.invoke() },
-            modifier = Modifier.padding(start = 10.dp)
-        ) {
-            Icon(
-                imageVector = if (passcodeVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                contentDescription = null
-            )
-        }
+//        IconButton(
+//            onClick = { togglePasscodeVisibility.invoke() },
+//            modifier = Modifier.padding(start = 10.dp)
+//        ) {
+//            Icon(
+//                imageVector = if (passcodeVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+//                contentDescription = null
+//            )
+//        }
     }
 }
 
@@ -205,7 +253,7 @@ fun PasscodeScreenPreview() {
             }
 
             override val hasPasscode: Boolean
-                get() = false
+                get() = true
 
             override fun setHasPassCode(hasPassCode: Boolean) {}
 

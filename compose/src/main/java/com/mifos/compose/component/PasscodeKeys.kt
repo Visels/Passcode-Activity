@@ -6,6 +6,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.mifos.compose.R
 import com.mifos.compose.theme.PasscodeKeyButtonStyle
 import com.mifos.compose.theme.blueTint
+import com.mifos.compose.theme.materialBlue
 
 @Composable
 fun PasscodeKeys(
@@ -44,9 +47,12 @@ fun PasscodeKeys(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .padding(16.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)) {
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyTitle = "1",
@@ -63,7 +69,11 @@ fun PasscodeKeys(
                 onClick = onEnterKeyClick
             )
         }
-        Row(modifier = Modifier.fillMaxWidth()) {
+
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)) {
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyTitle = "4",
@@ -80,7 +90,9 @@ fun PasscodeKeys(
                 onClick = onEnterKeyClick
             )
         }
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)) {
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyTitle = "7",
@@ -97,8 +109,13 @@ fun PasscodeKeys(
                 onClick = onEnterKeyClick
             )
         }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            PasscodeKey(modifier = Modifier.weight(weight = 1.0F))
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)) {
+            PasscodeKey(
+                modifier = Modifier.weight(weight = 1.0F),
+                keyIconContentDescription = "fingerprint",
+                keyIcon = ImageVector.vectorResource(id = R.drawable.fingerprint_svgrepo_com))
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyTitle = "0",
@@ -107,7 +124,7 @@ fun PasscodeKeys(
             PasscodeKey(
                 modifier = Modifier.weight(weight = 1.0F),
                 keyIcon = ImageVector.vectorResource(id = R.drawable.ic_delete),
-                keyIconContentDescription = "Delete Passcode Key Button",
+                keyIconContentDescription = "backspace",
                 onClick = {
                     deleteKey()
                 },
@@ -129,8 +146,9 @@ fun PasscodeKey(
     onLongClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+        modifier = modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         CombinedClickableIconButton(
             modifier = Modifier
@@ -145,14 +163,27 @@ fun PasscodeKey(
             if (keyIcon == null) {
                 Text(
                     text = keyTitle,
-                    style = PasscodeKeyButtonStyle.copy(color = blueTint)
+//                    style = PasscodeKeyButtonStyle.copy(color = materialBlue)
+                    style = PasscodeKeyButtonStyle.copy(color = Color.Black)
                 )
             } else {
-                Icon(
-                    imageVector = Icons.Default.Backspace,
-                    contentDescription = keyIconContentDescription,
-                    tint = blueTint
-                )
+                if(keyIconContentDescription.equals("backspace")){
+                    Icon(
+                        imageVector = Icons.Default.Backspace,
+                        contentDescription = keyIconContentDescription,
+//                    tint = blueTint
+                        tint = materialBlue
+                    )
+                }
+                else {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.fingerprint_svgrepo_com),
+                        contentDescription = keyIconContentDescription,
+//                    tint = blueTint
+                        tint = materialBlue
+                    )
+                }
+
             }
         }
     }
@@ -195,8 +226,8 @@ fun CombinedClickableIconButton(
 }
 
 
-@Preview
 @Composable
+@Preview(showBackground = true)
 fun PasscodeKeysPreview() {
     PasscodeKeys({}, {}, {})
 }

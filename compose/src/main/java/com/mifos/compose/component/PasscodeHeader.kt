@@ -17,12 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mifos.compose.R
+import com.mifos.compose.theme.materialBlue
+import com.mifos.compose.theme.poppins
 import com.mifos.compose.utility.Step
 
 @Composable
@@ -78,7 +81,9 @@ fun PasscodeHeader(
                         .alpha(alpha = alphaHeader1)
                         .scale(scale = scaleHeader1),
                     text = stringResource(id = R.string.enter_your_passcode),
-                    style = TextStyle(fontSize = 20.sp)
+                    style = TextStyle(fontSize = 22.sp),
+                    fontFamily = poppins,
+                    color = materialBlue
                 )
             } else {
                 if (activeStep == Step.Create) {
@@ -88,7 +93,9 @@ fun PasscodeHeader(
                             .alpha(alpha = alphaHeader1)
                             .scale(scale = scaleHeader1),
                         text = stringResource(id = R.string.create_passcode),
-                        style = TextStyle(fontSize = 20.sp)
+                        style = TextStyle(fontSize = 20.sp),
+                        fontFamily = poppins,
+                        color = materialBlue
                     )
                 } else if (activeStep == Step.Confirm) {
                     Text(
@@ -97,7 +104,9 @@ fun PasscodeHeader(
                             .alpha(alpha = alphaHeader2)
                             .scale(scale = scaleHeader2),
                         text = stringResource(id = R.string.confirm_passcode),
-                        style = TextStyle(fontSize = 20.sp)
+                        style = TextStyle(fontSize = 20.sp),
+                        fontFamily = poppins,
+                        color = materialBlue
                     )
                 }
             }
@@ -105,8 +114,8 @@ fun PasscodeHeader(
     }
 }
 
-@Preview
 @Composable
+@Preview(showBackground = true)
 fun PasscodeHeaderPreview() {
     PasscodeHeader(activeStep = Step.Create, isPasscodeAlreadySet = true)
 }

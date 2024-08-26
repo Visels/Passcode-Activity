@@ -23,3 +23,7 @@ val LatoFonts = FontFamily(
         style = FontStyle.Normal
     )
 )
+
+val poppins = FontFamily(
+    Font(R.font.poppins_reqular)
+)
